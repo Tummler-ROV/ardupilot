@@ -175,6 +175,7 @@ class SizeCompareBranches(object):
         '''return a list of all Linux board names; FIXME: get this dynamically'''
         # grep 'class.*[(]linux' Tools/ardupilotwaf/boards.py  | perl -pe "s/class (.*)\(linux\).*/            '\\1',/"
         return [
+            'tummler',
             'navigator',
             'erleboard',
             'navio',

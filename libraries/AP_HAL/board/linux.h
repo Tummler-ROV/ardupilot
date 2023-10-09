@@ -324,6 +324,13 @@
     #define HAL_BUZZER_PIN                12 // You can choose between 27,22,4,12
     #define OBAL_ALLOW_ADC                1
 
+#elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_TUMMLER
+    #define HAL_INS_PROBE_LIST PROBE_IMU_SPI(Invensense, "mpu9250", ROTATION_NONE)
+    #define HAL_MAG_PROBE2 PROBE_MAG_IMU(AK8963, mpu9250, 0, ROTATION_NONE)
+    #define HAL_MAG_PROBE1 PROBE_MAG_I2C(QMC5883L, 1, 0x0d, true,  ROTATION_NONE)
+    #define HAL_BARO_PROBE_LIST PROBE_BARO_I2C(MS56XX, 1, 0x76, AP_Baro_MS56XX::BARO_MS5837)
+    #define HAL_MAG_PROBE_LIST HAL_MAG_PROBE1; HAL_MAG_PROBE2
+
 #else
     #error "no Linux board subtype set"
 #endif

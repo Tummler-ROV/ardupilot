@@ -22,7 +22,7 @@
 
 using namespace Linux;
 
-#define PWM_CHAN_COUNT 8
+#define PWM_CHAN_COUNT 10
 
 extern const AP_HAL::HAL& hal;
 

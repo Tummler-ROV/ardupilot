@@ -105,7 +105,7 @@ static AnalogIn_IIO analogIn;
       CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_EDGE
 static AnalogIn_Navio2 analogIn;
 #elif CONFIG_HAL_BOARD_SUBTYPE == HAL_BOARD_SUBTYPE_LINUX_TUMMLER
-static AnalogIn_ADS_STM32 analogIn;
+static AnalogIn_ADS1115 analogIn;
 #else
 static Empty::AnalogIn analogIn;
 #endif

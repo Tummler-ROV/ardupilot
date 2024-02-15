@@ -5,12 +5,7 @@
 #include <AP_Common/AP_Common.h>
 
 #include <AP_Gripper/AP_Gripper.h>
-#include <AP_Stats/AP_Stats.h>
 #include <AP_Arming/AP_Arming.h>
-
-#if AP_SCRIPTING_ENABLED
-#include <AP_Scripting/AP_Scripting.h>
-#endif
 
 // Global parameter class.
 //
@@ -149,6 +144,23 @@ public:
         k_param_jbtn_14,
         k_param_jbtn_15,
 
+        // 16 more for MANUAL_CONTROL extensions
+        k_param_jbtn_16,
+        k_param_jbtn_17,
+        k_param_jbtn_18,
+        k_param_jbtn_19,
+        k_param_jbtn_20,
+        k_param_jbtn_21,
+        k_param_jbtn_22,
+        k_param_jbtn_23,
+        k_param_jbtn_24,
+        k_param_jbtn_25,
+        k_param_jbtn_26,
+        k_param_jbtn_27,
+        k_param_jbtn_28,
+        k_param_jbtn_29,
+        k_param_jbtn_30,
+        k_param_jbtn_31,
 
         // PID Controllers
         k_param_p_pos_xy = 126, // deprecated
@@ -295,6 +307,23 @@ public:
     JSButton        jbtn_13;
     JSButton        jbtn_14;
     JSButton        jbtn_15;
+    // 16 - 31 from manual_control extension
+    JSButton        jbtn_16;
+    JSButton        jbtn_17;
+    JSButton        jbtn_18;
+    JSButton        jbtn_19;
+    JSButton        jbtn_20;
+    JSButton        jbtn_21;
+    JSButton        jbtn_22;
+    JSButton        jbtn_23;
+    JSButton        jbtn_24;
+    JSButton        jbtn_25;
+    JSButton        jbtn_26;
+    JSButton        jbtn_27;
+    JSButton        jbtn_28;
+    JSButton        jbtn_29;
+    JSButton        jbtn_30;
+    JSButton        jbtn_31;
 
     // Acro parameters
     AP_Float        acro_rp_p;
@@ -320,10 +349,6 @@ public:
 class ParametersG2 {
 public:
     ParametersG2(void);
-#if STATS_ENABLED == ENABLED
-    // vehicle statistics
-    AP_Stats stats;
-#endif
 
     // var_info for holding Parameter information
     static const struct AP_Param::GroupInfo var_info[];
@@ -343,9 +368,6 @@ public:
     // control over servo output ranges
     SRV_Channels servo_channels;
 
-#if AP_SCRIPTING_ENABLED
-    AP_Scripting scripting;
-#endif // AP_SCRIPTING_ENABLED
 };
 
 extern const AP_Param::Info        var_info[];

@@ -568,7 +568,7 @@ MAV_RESULT GCS_MAVLINK_Sub::handle_MAV_CMD_DO_MOTOR_TEST(const mavlink_command_i
         return MAV_RESULT_ACCEPTED;
 }
 
-void GCS_MAVLINK_Sub::handleMessage(const mavlink_message_t &msg)
+void GCS_MAVLINK_Sub::handle_message(const mavlink_message_t &msg)
 {
     switch (msg.msgid) {
 
@@ -583,7 +583,23 @@ void GCS_MAVLINK_Sub::handleMessage(const mavlink_message_t &msg)
             break; // only accept control aimed at us
         }
 
-        sub.transform_manual_control_to_rc_override(packet.x,packet.y,packet.z,packet.r,packet.buttons);
+        sub.transform_manual_control_to_rc_override(
+            packet.x,
+            packet.y,
+            packet.z,
+            packet.r,
+            packet.buttons,
+            packet.buttons2,
+            packet.enabled_extensions,
+            packet.s,
+            packet.t,
+            packet.aux1,
+            packet.aux2,
+            packet.aux3,
+            packet.aux4,
+            packet.aux5,
+            packet.aux6
+        );
 
         sub.failsafe.last_pilot_input_ms = AP_HAL::millis();
         // a RC override message is considered to be a 'heartbeat'
@@ -801,7 +817,7 @@ void GCS_MAVLINK_Sub::handleMessage(const mavlink_message_t &msg)
         break;
 
     default:
-        handle_common_message(msg);
+        GCS_MAVLINK::handle_message(msg);
         break;
     }     // end switch
 } // end handle mavlink

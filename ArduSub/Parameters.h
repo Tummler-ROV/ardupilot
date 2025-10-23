@@ -7,6 +7,11 @@
 #include <AP_Gripper/AP_Gripper.h>
 #include <AP_Arming/AP_Arming.h>
 
+#if AP_SCRIPTING_ENABLED
+#include <AP_Scripting/AP_Scripting.h>
+#endif
+
+#include "actuators.h"
 // Global parameter class.
 //
 class Parameters {
@@ -191,7 +196,7 @@ public:
         // Misc Sub settings
         k_param_log_bitmask = 165,
         k_param_angle_max = 167,
-        k_param_rangefinder_gain,
+        k_param_rangefinder_gain, // deprecated
         k_param_wp_yaw_behavior = 170,
         k_param_xtrack_angle_limit, // Angle limit for crosstrack correction in Auto modes (degrees)
         k_param_pilot_speed_up,     // renamed from k_param_pilot_velocity_z_max
@@ -229,6 +234,8 @@ public:
         k_param_cam_slew_limit = 237, // deprecated
         k_param_lights_steps,
         k_param_pilot_speed_dn,
+        k_param_rangefinder_signal_min,
+        k_param_surftrak_depth,
 
         k_param_vehicle = 257, // vehicle common block of parameters
     };
@@ -243,7 +250,8 @@ public:
     AP_Float        throttle_filt;
 
 #if RANGEFINDER_ENABLED == ENABLED
-    AP_Float        rangefinder_gain;
+    AP_Int8         rangefinder_signal_min;     // minimum signal quality for good rangefinder readings
+    AP_Float        surftrak_depth;             // surftrak will try to keep sub below this depth
 #endif
 
     AP_Int8         failsafe_leak;              // leak detection failsafe behavior
@@ -368,6 +376,15 @@ public:
     // control over servo output ranges
     SRV_Channels servo_channels;
 
+#if AP_SCRIPTING_ENABLED
+    AP_Scripting scripting;
+#endif // AP_SCRIPTING_ENABLED
+
+    AP_Float backup_origin_lat;
+    AP_Float backup_origin_lon;
+    AP_Float backup_origin_alt;
+    Actuators actuators;
+
 };
 
 extern const AP_Param::Info        var_info[];
@@ -402,8 +419,8 @@ static const struct AP_Param::defaults_table_struct defaults_table[] = {
     { "BATT_CAPACITY",       0},
     { "LEAK1_PIN",           27},
     { "SCHED_LOOP_RATE",     200},
-    { "SERVO13_FUNCTION",    59},    // k_rcin9, lights 1
-    { "SERVO14_FUNCTION",    60},    // k_rcin10, lights 2
+    { "SERVO13_FUNCTION",    181},   // k_lights1
+    { "SERVO14_FUNCTION",    182},   // k_lights2
     { "SERVO16_FUNCTION",    7},     // k_mount_tilt
     { "SERVO16_REVERSED",    1},
 #else

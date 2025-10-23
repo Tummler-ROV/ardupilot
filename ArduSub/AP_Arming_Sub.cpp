@@ -13,30 +13,9 @@ bool AP_Arming_Sub::rc_calibration_checks(bool display_failure)
 }
 
 bool AP_Arming_Sub::has_disarm_function() const {
-    bool has_shift_function = false;
-    // make sure the craft has a disarm button assigned before it is armed
-    // check all the standard btn functions
-    for (uint8_t i = 0; i < 16; i++) {
-        switch (sub.get_button(i)->function(false)) {
-            case JSButton::k_shift :
-                has_shift_function = true;
-                break;
-            case JSButton::k_arm_toggle :
-                return true;
-            case JSButton::k_disarm :
-                return true;
-        }
-    }
-
-    // check all the shift functions if there's shift assigned
-    if (has_shift_function) {
-        for (uint8_t i = 0; i < 16; i++) {
-            switch (sub.get_button(i)->function(true)) {
-                case JSButton::k_arm_toggle :
-                case JSButton::k_disarm :
-                    return true;
-            }
-        }
+    if (sub.jsbutton_function_is_assigned(JSButton::k_arm_toggle) ||
+        sub.jsbutton_function_is_assigned(JSButton::k_disarm)) {
+        return true;
     }
     return false;
 }
@@ -149,6 +128,14 @@ bool AP_Arming_Sub::arm(AP_Arming::Method method, bool do_arming_checks)
     // flag exiting this function
     in_arm_motors = false;
 
+    // if we do not have an ekf origin then we can't use the WMM tables
+    if (!sub.ensure_ekf_origin()) {
+        gcs().send_text(MAV_SEVERITY_WARNING, "Compass performance degraded");
+        if (check_enabled(ARMING_CHECK_PARAMETERS)) {
+            check_failed(ARMING_CHECK_PARAMETERS, true, "No world position, check ORIGIN_* parameters");
+            return false;
+        }
+    }
     // return success
     return true;
 }

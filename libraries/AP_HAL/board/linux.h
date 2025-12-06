@@ -346,6 +346,12 @@
     #define HAL_BARO_PROBE_LIST PROBE_BARO_I2C(MS56XX, 1, 0x76, AP_Baro_MS56XX::BARO_MS5837)
     #define HAL_BARO_ALLOW_INIT_NO_BARO
     #define HAL_MAG_PROBE_LIST HAL_MAG_PROBE1; HAL_MAG_PROBE2
+    #define HAL_GPIO_A_LED_PIN        16
+    #define HAL_GPIO_C_LED_PIN        20
+    #define HAL_GPIO_B_LED_PIN        21
+    
+    #define HAL_GPIO_LED_ON           1
+    #define HAL_GPIO_LED_OFF          0
 
 #else
     #error "no Linux board subtype set"

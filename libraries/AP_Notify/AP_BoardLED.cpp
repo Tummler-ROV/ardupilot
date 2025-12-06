@@ -71,11 +71,11 @@ void AP_BoardLED::update(void)
         switch(save_trim_counter) {
             case 0:
                 hal.gpio->write(HAL_GPIO_C_LED_PIN, HAL_GPIO_LED_OFF);
-                hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
+                hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_ON);
                 break;
 
             case 1:
-                hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_OFF);
+                hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_OFF);
                 hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_ON);
                 break;
 
@@ -91,11 +91,17 @@ void AP_BoardLED::update(void)
         return;
     }
 
+    // if (AP_Notify::flags.failsafe_gcs) {
+    //     // red led solid
+    //     hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
+    // }else{
+    //     hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_OFF);
+    // }
     // arming light
     static uint8_t arm_counter = 0;
 	if (AP_Notify::flags.armed) {
         // red led solid
-        hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
+        hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_ON);
     }else{
         if ((counter2 & 0x2) == 0) {
             arm_counter++;
@@ -106,12 +112,12 @@ void AP_BoardLED::update(void)
                 case 0:
                 case 1:
                 case 2:
-                    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
+                    hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_ON);
                     break;
                 case 3:
                 case 4:
                 case 5:
-                    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_OFF);
+                    hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_OFF);
                     break;
                 default:
                     // reset counter to restart the sequence
@@ -125,13 +131,13 @@ void AP_BoardLED::update(void)
                 case 1:
                 case 3:
                 case 4:
-                    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
+                    hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_ON);
                     break;
 
                 case 2:
                 case 5:
                 case 6:
-                    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_OFF);
+                    hal.gpio->write(HAL_GPIO_B_LED_PIN, HAL_GPIO_LED_OFF);
                     break;
 
                 default:

@@ -1,6 +1,6 @@
 #include "Sub.h"
 
-
+#include "AP_Notify/AP_BoardLED.h"
 bool ModeSurface::init(bool ignore_checks)
 {
     if(!sub.control_check_barometer()) {
@@ -21,7 +21,7 @@ bool ModeSurface::init(bool ignore_checks)
 void ModeSurface::run()
 {
     float target_roll, target_pitch;
-
+    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_ON);
     // if not armed set throttle to zero and exit immediately
     if (!motors.armed()) {
         motors.output_min();
@@ -35,6 +35,7 @@ void ModeSurface::run()
     // Already at surface, hold depth at surface
     if (sub.ap.at_surface) {
         set_mode(Mode::Number::ALT_HOLD, ModeReason::SURFACE_COMPLETE);
+        
     }
 
     // convert pilot input to lean angles

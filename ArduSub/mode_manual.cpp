@@ -1,6 +1,6 @@
 #include "Sub.h"
 
-
+#include "AP_Notify/AP_BoardLED.h"
 bool ModeManual::init(bool ignore_checks) {
     // set target altitude to zero for reporting
     position_control->set_pos_target_z_cm(0);
@@ -16,6 +16,7 @@ bool ModeManual::init(bool ignore_checks) {
 // should be called at 100hz or more
 void ModeManual::run()
 {
+    hal.gpio->write(HAL_GPIO_A_LED_PIN, HAL_GPIO_LED_OFF);
     // if not armed set throttle to zero and exit immediately
     if (!sub.motors.armed()) {
         sub.motors.set_desired_spool_state(AP_Motors::DesiredSpoolState::GROUND_IDLE);
